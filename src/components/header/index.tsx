@@ -1,36 +1,85 @@
-import React, { Component, Dispatch } from 'react'
+import React, { Component } from 'react'
+import { Dispatch } from 'redux'
 import { CSSTransition } from 'react-transition-group'
 import { connect } from 'react-redux'
 
-import { HeaderStore, BaseAction } from '../../types/index'
+import { IBaseStore, IHeaderStore } from '../../types/index'
 import { actionCreators } from './store'
 
 import './style.scss'
 
-interface FormProps {
-  focused: boolean
-  handleInputFocus: () => void
+interface IHeaderProps extends IHeaderStore {
+  handleInputFocus: (list: Array<string>) => void
   handleInputBlur: () => void
+  handleMouseEnter: () => void
+  handleMouseLeave: () => void
+  handleChangePage: (
+    page: number,
+    totalPage: number,
+    spin: HTMLSpanElement | null
+  ) => void
 }
 
-class Header extends Component<FormProps> {
+class Header extends Component<IHeaderProps, {}> {
+  private spinIcon: HTMLSpanElement | null
+  constructor(props: IHeaderProps) {
+    super(props)
+    this.spinIcon = null
+  }
   getListArea(): JSX.Element | null {
-    return (
-      <div className="search-info">
-        <div className="search-info-title">
-          <span>热门搜索</span>
-          <div className="search-info-switch">
-            <span className="iconfont spin">&#xe600;</span>
-            换一批
+    const {
+      focused,
+      mouseIn,
+      list,
+      page,
+      totalPage,
+      handleMouseEnter,
+      handleMouseLeave,
+      handleChangePage
+    } = this.props
+    let pageList = []
+    if (list.length) {
+      for (let i = (page - 1) * 10; i < page * 10; i++) {
+        pageList.push(
+          <a key={i} className="search-info-item">
+            {list[i]}
+          </a>
+        )
+      }
+    }
+    if (focused || mouseIn) {
+      return (
+        <div
+          className="search-info"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <div className="search-info-title">
+            <span>热门搜索</span>
+            <div
+              className="search-info-switch"
+              // tslint:disable-next-line: jsx-no-multiline-js
+              onClick={() => handleChangePage(page, totalPage, this.spinIcon)}
+            >
+              <span
+                className="iconfont spin"
+                ref={icon => (this.spinIcon = icon)}
+              >
+                &#xe600;
+              </span>
+              换一批
+            </div>
           </div>
+          <div className="search-info-list">{pageList}</div>
         </div>
-        <div className="search-info-list">123</div>
-      </div>
-    )
+      )
+    } else {
+      return null
+    }
   }
 
   render(): JSX.Element {
-    const { handleInputFocus, handleInputBlur } = this.props
+    const { handleInputFocus, handleInputBlur, focused, list } = this.props
     return (
       <div className="header-Wrapper">
         <div className="logo" />
@@ -42,16 +91,20 @@ class Header extends Component<FormProps> {
             <span className="iconfont">&#xe636;</span>
           </div>
           <div className="nav-search-wrapper">
-            <CSSTransition timeout={200} classNames="slide">
+            <CSSTransition in={focused} timeout={200} classNames="slide">
               <input
                 type="text"
                 placeholder="搜索"
-                className="nav-search"
-                onFocus={handleInputFocus}
+                className={focused ? 'nav-search focused' : 'nav-search'}
+                onFocus={() => handleInputFocus(list)}
                 onBlur={handleInputBlur}
               />
             </CSSTransition>
-            <span className="iconfont zoom">&#xe64d;</span>
+            <span
+              className={focused ? 'iconfont zoom focused' : 'iconfont zoom'}
+            >
+              &#xe64d;
+            </span>
             {this.getListArea()}
           </div>
           <div className="addition">
@@ -66,19 +119,52 @@ class Header extends Component<FormProps> {
   }
 }
 
-const mapStateTopProps = (state: HeaderStore<string, any>) => {
+const mapStateTopProps = (state: IBaseStore) => {
+  let {
+    headerReducer: { focused, mouseIn, list, page, totalPage }
+  } = state
   return {
-    focused: state.getIn(['header', 'focused'])
+    focused,
+    mouseIn,
+    list,
+    page,
+    totalPage
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<BaseAction>) => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    handleInputFocus() {
+    handleInputFocus(list: Array<string>) {
+      list.length === 0 && actionCreators.getList(dispatch)
       dispatch(actionCreators.searchFocus())
     },
     handleInputBlur() {
       dispatch(actionCreators.searchBlur())
+    },
+    handleMouseEnter() {
+      dispatch(actionCreators.mouseEnter())
+    },
+    handleMouseLeave() {
+      dispatch(actionCreators.mouseLeave())
+    },
+    handleChangePage(
+      page: number,
+      totalPage: number,
+      spin: HTMLSpanElement | null
+    ) {
+      let originAngle = 0
+      if (spin!.style.transform) {
+        originAngle = parseInt(
+          spin!.style.transform.replace(/[^0-9]/gi, ''),
+          10
+        )
+      }
+      spin!.style.transform = `rotate(${originAngle + 360}deg)`
+      if (page < totalPage) {
+        dispatch(actionCreators.changePage(page + 1))
+      } else {
+        dispatch(actionCreators.changePage(1))
+      }
     }
   }
 }

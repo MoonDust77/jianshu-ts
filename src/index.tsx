@@ -4,6 +4,7 @@ import './assets/style/reset.scss'
 import './assets/iconfont/iconfont.css'
 import App from './App'
 // import * as serviceWorker from './serviceWorker'
+import './mock'
 
 ReactDOM.render(<App />, document.getElementById('root'))
 

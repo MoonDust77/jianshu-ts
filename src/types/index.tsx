@@ -1,9 +1,26 @@
-import immutable, { fromJS } from 'immutable'
-
-export interface BaseAction {
+// ----------------actions type------------------
+export interface IBaseAction {
   type: string
 }
 
-export interface HeaderStore<T, K> extends immutable.Map<T, K> {
+export interface IHeaderListAction extends IBaseAction {
+  data: object
+  totalPage: number
+}
+
+export interface IHeaderListChangePageAction extends IBaseAction {
+  page: number
+}
+
+// ---------------stores type--------------------
+export interface IBaseStore {
+  headerReducer: IHeaderStore
+}
+
+export interface IHeaderStore {
   focused: boolean
+  mouseIn: boolean
+  list: Array<string>
+  page: number
+  totalPage: number
 }
