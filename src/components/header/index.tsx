@@ -8,7 +8,7 @@ import { actionCreators } from './store'
 
 import './style.scss'
 
-interface IHeaderProps extends IHeaderStore {
+interface IHeaderDispatch {
   handleInputFocus: (list: Array<string>) => void
   handleInputBlur: () => void
   handleMouseEnter: () => void
@@ -19,6 +19,7 @@ interface IHeaderProps extends IHeaderStore {
     spin: HTMLSpanElement | null
   ) => void
 }
+interface IHeaderProps extends IHeaderStore, IHeaderDispatch {}
 
 class Header extends Component<IHeaderProps, {}> {
   private spinIcon: HTMLSpanElement | null
@@ -119,20 +120,14 @@ class Header extends Component<IHeaderProps, {}> {
   }
 }
 
-const mapStateTopProps = (state: IBaseStore) => {
-  let {
-    headerReducer: { focused, mouseIn, list, page, totalPage }
-  } = state
+const mapStateTopProps = (state: IBaseStore): IHeaderStore => {
+  let { headerReducer } = state
   return {
-    focused,
-    mouseIn,
-    list,
-    page,
-    totalPage
+    ...headerReducer
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
+const mapDispatchToProps = (dispatch: Dispatch): IHeaderDispatch => {
   return {
     handleInputFocus(list: Array<string>) {
       list.length === 0 && actionCreators.getList(dispatch)
