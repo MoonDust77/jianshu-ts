@@ -5,7 +5,8 @@ import {
   IHomeAction,
   IHomeData,
   articleObject,
-  IMoreListAction
+  IMoreListAction,
+  IListChangePageAction
 } from '../../../types'
 
 const changeHomeData = (data: IHomeData): IHomeAction => ({
@@ -45,5 +46,11 @@ const setMoreArticleList = (
 ): IMoreListAction => ({
   type: constants.SET_MORE_ARTICLE,
   data,
+  page
+})
+
+// 作者列表翻页
+export const changeWriterListPage = (page: number): IListChangePageAction => ({
+  type: constants.CHANGE_WRITER_LIST_PAGE,
   page
 })

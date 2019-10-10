@@ -6,6 +6,8 @@ import { actionCreators } from './store'
 import { IBaseStore, IHomeStore } from '../../types'
 import Topic from './components/Topic'
 import List from './components/List'
+import Recommend from './components/Recommend'
+import Writer from './components/writer'
 
 import './style.scss'
 
@@ -31,7 +33,24 @@ class Home extends Component<IHomeProps> {
           <Topic />
           <List />
         </div>
-        <div className="home-right">right</div>
+        <div className="home-right">
+          <Recommend />
+          <a
+            className="download-box"
+            href="https://www.jianshu.com/apps?utm_medium=desktop&utm_source=index-aside-click"
+          >
+            <img
+              src="//cdn2.jianshu.io/assets/web/download-index-side-qrcode-cb13fc9106a478795f8d10f9f632fccf.png"
+              alt="qrcode"
+              className="qrcode-img"
+            />
+            <div className="download-info-box">
+              <div className="title">下载简书手机App</div>
+              <div className="desc">随时随地发现和创作内容</div>
+            </div>
+          </a>
+          <Writer />
+        </div>
       </div>
     )
   }

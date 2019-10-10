@@ -8,7 +8,7 @@ export interface IHeaderListAction extends IBaseAction {
   totalPage: number
 }
 
-export interface IHeaderListChangePageAction extends IBaseAction {
+export interface IListChangePageAction extends IBaseAction {
   page: number
 }
 

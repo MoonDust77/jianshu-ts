@@ -29,6 +29,14 @@ export default (state: IHomeStore = defaultState, action: any): IHomeStore => {
         articleList: state.articleList.concat(action.data),
         articlePage: action.page
       }
+    case constants.CHANGE_WRITER_LIST_PAGE:
+      return {
+        ...state,
+        writerPage: {
+          page: action.page,
+          totalPages: state.writerPage.totalPages
+        }
+      }
     default:
       return state
   }

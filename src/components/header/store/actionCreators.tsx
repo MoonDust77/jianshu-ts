@@ -5,7 +5,7 @@ import axios from 'axios'
 import {
   IBaseAction,
   IHeaderListAction,
-  IHeaderListChangePageAction
+  IListChangePageAction
 } from '../../../types'
 
 // action interface
@@ -47,7 +47,7 @@ export const changeList = (data: Array<string>): IHeaderListAction => ({
   totalPage: Math.ceil(data.length / 10)
 })
 
-export const changePage = (page: number): IHeaderListChangePageAction => ({
+export const changePage = (page: number): IListChangePageAction => ({
   type: constants.CHANGE_PAGE,
   page
 })
