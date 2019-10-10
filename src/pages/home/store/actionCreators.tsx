@@ -1,7 +1,12 @@
 import { Dispatch } from 'redux'
 import axios from 'axios'
 import * as constants from './constants'
-import { IHomeAction, IHomeData } from '../../../types'
+import {
+  IHomeAction,
+  IHomeData,
+  articleObject,
+  IMoreListAction
+} from '../../../types'
 
 const changeHomeData = (data: IHomeData): IHomeAction => ({
   type: constants.GET_HOME_INFO,
@@ -22,3 +27,23 @@ export const getHomeData = (dispatch: Dispatch) => {
     }
   })
 }
+
+// 获取更多文章列表
+export const getMoreList = (dispatch: Dispatch, page: number) => {
+  axios.get(`/api/articleList?page=${page}`).then(({ data: res }) => {
+    if (res.code === 0) {
+      dispatch(setMoreArticleList(res.data, page))
+    } else {
+      console.error('获取文章列表数据失败...')
+    }
+  })
+}
+
+const setMoreArticleList = (
+  data: Array<articleObject>,
+  page: number
+): IMoreListAction => ({
+  type: constants.SET_MORE_ARTICLE,
+  data,
+  page
+})

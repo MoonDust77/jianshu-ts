@@ -19,6 +19,11 @@ export interface IHomeAction extends IBaseAction, IHomeData {
   }
 }
 
+export interface IMoreListAction extends IBaseAction {
+  data: Array<articleObject>
+  page: number
+}
+
 // ---------------stores type--------------------
 export interface IBaseStore {
   headerReducer: IHeaderStore
@@ -34,6 +39,7 @@ export interface IHeaderStore {
 }
 
 export interface IHomeStore extends IHomeData {
+  articlePage: number
   writerPage: {
     page: number
     totalPages: number
