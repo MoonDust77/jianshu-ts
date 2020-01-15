@@ -41,11 +41,15 @@ class Header extends Component<IHeaderProps, {}> {
     let pageList = []
     if (list.length) {
       for (let i = (page - 1) * 10; i < page * 10; i++) {
-        pageList.push(
-          <a key={i} className="search-info-item">
-            {list[i]}
-          </a>
-        )
+        if (list[i]) {
+          pageList.push(
+            <a key={i} className="search-info-item">
+              {list[i]}
+            </a>
+          )
+        } else {
+          break
+        }
       }
     }
     if (focused || mouseIn) {

@@ -46,20 +46,24 @@ class Writer extends PureComponent<IWriterProps> {
     if (writerList.length) {
       for (let i = (page - 1) * 10; i < page * 10; i++) {
         let item = writerList[i]
-        pageList.push(
-          <div className="writer-item" key={item.id}>
-            <a href={item.writerPageUrl} className="item-left">
-              <img src={item.avatarUrl} alt="" />
-            </a>
-            <div className="item-right">
-              <div className="writer-title">
-                <a href={item.writerPageUrl}>阿栈</a>
-                <span className="follow">+关注</span>
+        if (item) {
+          pageList.push(
+            <div className="writer-item" key={item.id}>
+              <a href={item.writerPageUrl} className="item-left">
+                <img src={item.avatarUrl} alt="" />
+              </a>
+              <div className="item-right">
+                <div className="writer-title">
+                  <a href={item.writerPageUrl}>阿栈</a>
+                  <span className="follow">+关注</span>
+                </div>
+                <div className="writer-info">{item.writerInfo}</div>
               </div>
-              <div className="writer-info">{item.writerInfo}</div>
             </div>
-          </div>
-        )
+          )
+        } else {
+          break
+        }
       }
     }
     return pageList

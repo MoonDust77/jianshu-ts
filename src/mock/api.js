@@ -104,7 +104,7 @@ const articleList = Mock.mock({
       desc:
         '每个人的生活 都藏着无限的可能性 每个人在他的生命里 都是独一无二的存在 生活会赋予你独特的经历 让你看到自己的闪光点 《聊斋系列之聂小倩》 她...',
       imgUrl:
-        '//upload-images.jianshu.io/upload_images/16980444-d07248c6300c4c90.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/360/h/240'
+        'https://upload-images.jianshu.io/upload_images/15082064-214d22540d92e9a1.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/360/h/240'
     }
   ]
 })
@@ -144,7 +144,7 @@ const homeData = Mock.mock({
         desc:
           '每个人的生活 都藏着无限的可能性 每个人在他的生命里 都是独一无二的存在 生活会赋予你独特的经历 让你看到自己的闪光点 《聊斋系列之聂小倩》 她...',
         imgUrl:
-          '//upload-images.jianshu.io/upload_images/16980444-d07248c6300c4c90.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/360/h/240'
+          'https://upload-images.jianshu.io/upload_images/15082064-214d22540d92e9a1.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/360/h/240'
       }
     ]
   }
